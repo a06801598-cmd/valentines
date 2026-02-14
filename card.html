@@ -88,7 +88,7 @@
 
     .sliders {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
       gap: 15px;
       margin-bottom: 15px;
     }
@@ -171,6 +171,7 @@
     }
 
     #output {
+      position: relative;
       background: #000;
       padding: 20px;
       border-radius: 8px;
@@ -179,10 +180,29 @@
       display: flex;
       align-items: center;
       justify-content: center;
-      overflow: auto;
+      overflow: hidden;
+    }
+
+    #backgroundImage {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      max-width: 90%;
+      max-height: 90%;
+      object-fit: contain;
+      opacity: 0;
+      transition: opacity 0.3s;
+      pointer-events: none;
+    }
+
+    #backgroundImage.show {
+      opacity: 0.15;
     }
 
     #portrait {
+      position: relative;
+      z-index: 1;
       font-family: 'Courier New', monospace;
       font-size: 6px;
       line-height: 1.1;
@@ -196,6 +216,8 @@
       text-align: center;
       color: #444;
       font-size: 0.9rem;
+      position: relative;
+      z-index: 1;
     }
 
     .tip {
@@ -245,6 +267,10 @@
         <label>Brightness <span id="brightnessVal">1.1</span></label>
         <input type="range" id="brightnessSlider" min="0.6" max="1.8" step="0.1" value="1.1">
       </div>
+      <div class="slider-item">
+        <label>Background Fade <span id="fadeVal">15%</span></label>
+        <input type="range" id="fadeSlider" min="0" max="40" value="15">
+      </div>
     </div>
 
     <div class="buttons">
@@ -254,12 +280,13 @@
     </div>
 
     <div class="tip">
-      <strong>💡 Pro Tip:</strong> For best results, use photos with good contrast between face and background. Increase contrast slider if face is too faint.
+      <strong>💡 Pro Tip:</strong> The background fade slider lets you see your original photo behind the text portrait. Adjust it to compare!
     </div>
   </div>
 
   <div id="output">
-    <div class="placeholder">
+    <img id="backgroundImage" alt="">
+    <div class="placeholder" id="placeholder">
       <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 10px;">🎨</div>
       <div>Upload your photo and click Generate</div>
     </div>
@@ -271,6 +298,7 @@
 
 <script>
   let loadedImage = null;
+  let imageDataURL = null;
 
   const fileInput = document.getElementById('fileInput');
   const uploadArea = document.getElementById('uploadArea');
@@ -279,14 +307,22 @@
   const widthSlider = document.getElementById('widthSlider');
   const contrastSlider = document.getElementById('contrastSlider');
   const brightnessSlider = document.getElementById('brightnessSlider');
+  const fadeSlider = document.getElementById('fadeSlider');
   const generateBtn = document.getElementById('generateBtn');
   const saveBtn = document.getElementById('saveBtn');
   const copyBtn = document.getElementById('copyBtn');
   const output = document.getElementById('output');
+  const backgroundImage = document.getElementById('backgroundImage');
+  const placeholder = document.getElementById('placeholder');
 
   widthSlider.oninput = () => document.getElementById('widthVal').textContent = widthSlider.value;
   contrastSlider.oninput = () => document.getElementById('contrastVal').textContent = parseFloat(contrastSlider.value).toFixed(1);
   brightnessSlider.oninput = () => document.getElementById('brightnessVal').textContent = parseFloat(brightnessSlider.value).toFixed(1);
+  fadeSlider.oninput = () => {
+    const val = fadeSlider.value;
+    document.getElementById('fadeVal').textContent = val + '%';
+    backgroundImage.style.opacity = val / 100;
+  };
 
   fileInput.onchange = (e) => {
     const file = e.target.files[0];
@@ -297,6 +333,7 @@
       const img = new Image();
       img.onload = () => {
         loadedImage = img;
+        imageDataURL = ev.target.result;
         uploadArea.classList.add('active');
         uploadText.innerHTML = `<strong>✓ ${file.name}</strong>`;
         generateBtn.disabled = false;
@@ -317,14 +354,12 @@
     const canvas = document.getElementById('workCanvas');
     const ctx = canvas.getContext('2d');
 
-    // Character aspect ratio (chars are taller than wide)
     const charAspect = 0.5;
     const targetHeight = Math.floor(loadedImage.height * (targetWidth / loadedImage.width) * charAspect);
 
     canvas.width = targetWidth;
     canvas.height = targetHeight;
 
-    // Draw and get pixel data
     ctx.drawImage(loadedImage, 0, 0, targetWidth, targetHeight);
     const imgData = ctx.getImageData(0, 0, targetWidth, targetHeight);
     const pixels = imgData.data;
@@ -340,21 +375,14 @@
         let g = pixels[i + 1];
         let b = pixels[i + 2];
 
-        // Convert to grayscale
         let gray = 0.299 * r + 0.587 * g + 0.114 * b;
-
-        // Apply brightness
         gray *= brightness;
-
-        // Apply contrast (pivot around 128)
         gray = (gray - 128) * contrast + 128;
         gray = Math.max(0, Math.min(255, gray));
 
-        // Threshold: if dark, use character; if light, use space
         if (gray < 128) {
           let ch = text[textIdx % text.length];
           textIdx++;
-          // Skip line breaks
           while (ch === '\n' || ch === '\r') {
             textIdx++;
             ch = text[textIdx % text.length];
@@ -367,8 +395,20 @@
       portrait += row + '\n';
     }
 
-    output.innerHTML = '<pre id="portrait"></pre>';
-    document.getElementById('portrait').textContent = portrait;
+    // Show background image
+    backgroundImage.src = imageDataURL;
+    backgroundImage.classList.add('show');
+    
+    // Hide placeholder and show portrait
+    placeholder.style.display = 'none';
+    
+    let portraitEl = document.getElementById('portrait');
+    if (!portraitEl) {
+      portraitEl = document.createElement('pre');
+      portraitEl.id = 'portrait';
+      output.appendChild(portraitEl);
+    }
+    portraitEl.textContent = portrait;
 
     saveBtn.disabled = false;
     copyBtn.disabled = false;
@@ -395,6 +435,30 @@
 
     ctx.fillStyle = '#000';
     ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+
+    // Draw background image if enabled
+    if (loadedImage && fadeSlider.value > 0) {
+      const imgAspect = loadedImage.width / loadedImage.height;
+      const canvasAspect = canvasWidth / canvasHeight;
+      let drawWidth, drawHeight, drawX, drawY;
+
+      if (imgAspect > canvasAspect) {
+        drawHeight = canvasHeight;
+        drawWidth = drawHeight * imgAspect;
+        drawX = (canvasWidth - drawWidth) / 2;
+        drawY = 0;
+      } else {
+        drawWidth = canvasWidth;
+        drawHeight = drawWidth / imgAspect;
+        drawX = 0;
+        drawY = (canvasHeight - drawHeight) / 2;
+      }
+
+      ctx.globalAlpha = fadeSlider.value / 100;
+      ctx.drawImage(loadedImage, drawX, drawY, drawWidth, drawHeight);
+      ctx.globalAlpha = 1;
+    }
+
     ctx.fillStyle = '#e8e8e8';
     ctx.font = `${fontSize}px "Courier New", monospace`;
 
