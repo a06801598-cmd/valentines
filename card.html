@@ -3,10 +3,8 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Text Portrait - Right Now</title>
+  <title>Text Portrait Generator</title>
   <style>
-    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
-    
     * {
       margin: 0;
       padding: 0;
@@ -14,446 +12,454 @@
     }
 
     body {
-      background: #000000;
+      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
       min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+      font-family: 'Courier New', monospace;
+      color: #fff;
       padding: 20px;
-      font-family: 'Space Mono', monospace;
-      overflow-x: hidden;
     }
 
-    .header {
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+    }
+
+    h1 {
       text-align: center;
-      margin-bottom: 30px;
-      animation: fadeInDown 1s ease-out;
-    }
-
-    .header h1 {
       font-size: 2rem;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffd93d);
+      letter-spacing: 0.2em;
+      margin-bottom: 30px;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      letter-spacing: 0.15em;
-      font-weight: 700;
-      margin-bottom: 8px;
     }
 
-    .header p {
-      color: #666;
-      font-size: 0.75rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-    }
-
-    .portrait-container {
-      background: rgba(10, 10, 10, 0.8);
-      padding: 25px;
-      border-radius: 8px;
-      box-shadow: 0 0 80px rgba(255, 255, 255, 0.05);
-      border: 1px solid rgba(255, 255, 255, 0.05);
-      animation: fadeIn 1.5s ease-out;
-      max-width: 95vw;
-      overflow-x: auto;
-    }
-
-    pre {
-      font-family: 'Courier New', monospace;
-      font-size: 5.5px;
-      line-height: 1.15;
-      letter-spacing: 0.02em;
-      color: #e8e8e8;
-      white-space: pre;
-      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
-    }
-
-    .controls {
-      margin-top: 25px;
-      display: flex;
-      gap: 12px;
-      flex-wrap: wrap;
-      justify-content: center;
-      animation: fadeInUp 1.5s ease-out;
-    }
-
-    button {
+    .controls-panel {
       background: rgba(255, 255, 255, 0.05);
+      padding: 25px;
+      border-radius: 10px;
+      margin-bottom: 30px;
       border: 1px solid rgba(255, 255, 255, 0.1);
-      color: #ccc;
-      padding: 10px 20px;
-      border-radius: 5px;
+    }
+
+    .upload-area {
+      border: 2px dashed rgba(255, 255, 255, 0.3);
+      border-radius: 8px;
+      padding: 40px;
+      text-align: center;
+      margin-bottom: 20px;
       cursor: pointer;
-      font-family: 'Space Mono', monospace;
-      font-size: 0.8rem;
-      letter-spacing: 0.05em;
       transition: all 0.3s;
     }
 
-    button:hover {
-      background: rgba(255, 255, 255, 0.15);
-      transform: translateY(-2px);
+    .upload-area:hover {
+      border-color: rgba(255, 255, 255, 0.6);
+      background: rgba(255, 255, 255, 0.05);
+    }
+
+    .upload-area.has-image {
+      border-color: #4ecdc4;
+      background: rgba(78, 205, 196, 0.1);
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .upload-icon {
+      font-size: 3rem;
+      margin-bottom: 10px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      color: #aaa;
+      margin-bottom: 8px;
+      letter-spacing: 0.05em;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 100px;
+      background: rgba(0, 0, 0, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.2);
       color: #fff;
+      padding: 12px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
+      resize: vertical;
+      margin-bottom: 15px;
     }
 
-    @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.98); }
-      to { opacity: 1; transform: scale(1); }
+    textarea:focus {
+      outline: none;
+      border-color: #4ecdc4;
     }
 
-    @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .slider-group {
+      margin-bottom: 20px;
     }
 
-    @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
+    .slider-header {
+      display: flex;
+      justify-content: space-between;
+      margin-bottom: 8px;
     }
 
-    @media (min-width: 768px) {
-      pre { font-size: 6.5px; }
-      .header h1 { font-size: 2.5rem; }
+    input[type="range"] {
+      width: 100%;
+      height: 6px;
+      background: rgba(255, 255, 255, 0.2);
+      border-radius: 3px;
+      outline: none;
+      -webkit-appearance: none;
     }
 
-    .footer {
-      margin-top: 30px;
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #4ecdc4;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+
+    input[type="range"]::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #4ecdc4;
+      border-radius: 50%;
+      cursor: pointer;
+      border: none;
+    }
+
+    .button-group {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      flex: 1;
+      min-width: 150px;
+      background: rgba(78, 205, 196, 0.2);
+      border: 1px solid #4ecdc4;
+      color: #4ecdc4;
+      padding: 12px 24px;
+      border-radius: 6px;
+      font-family: 'Courier New', monospace;
+      font-size: 0.9rem;
+      cursor: pointer;
+      transition: all 0.3s;
+      letter-spacing: 0.05em;
+    }
+
+    button:hover {
+      background: rgba(78, 205, 196, 0.4);
+      transform: translateY(-2px);
+    }
+
+    button:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    button.primary {
+      background: #4ecdc4;
+      color: #000;
+      font-weight: bold;
+    }
+
+    button.primary:hover {
+      background: #5eddd4;
+    }
+
+    #output {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      min-height: 400px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    #portrait {
+      font-family: 'Courier New', monospace;
+      font-size: 6px;
+      line-height: 1.1;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      white-space: pre;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
+      max-width: 100%;
+      overflow-x: auto;
+    }
+
+    #placeholder {
       text-align: center;
-      color: #444;
-      font-size: 0.7rem;
-      animation: fadeIn 2s ease-out;
+      color: #555;
+    }
+
+    #placeholder .icon {
+      font-size: 4rem;
+      margin-bottom: 15px;
+      opacity: 0.3;
+    }
+
+    canvas {
+      display: none;
+    }
+
+    .tips {
+      background: rgba(255, 107, 107, 0.1);
+      border: 1px solid rgba(255, 107, 107, 0.3);
+      border-radius: 6px;
+      padding: 15px;
+      margin-top: 20px;
+      font-size: 0.85rem;
+      color: #ff6b6b;
+    }
+
+    .tips strong {
+      display: block;
+      margin-bottom: 8px;
+    }
+
+    @media (max-width: 768px) {
+      h1 { font-size: 1.5rem; }
+      .button-group { flex-direction: column; }
+      button { min-width: 100%; }
     }
   </style>
 </head>
 <body>
 
-<div class="header">
-  <h1>✦ RIGHT NOW ✦</h1>
-  <p>Text Portrait</p>
+<div class="container">
+  <h1>✦ TEXT PORTRAIT GENERATOR ✦</h1>
+
+  <div class="controls-panel">
+    <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
+      <div class="upload-icon">📸</div>
+      <div id="uploadText">Click to upload your photo</div>
+      <div style="font-size: 0.75rem; color: #666; margin-top: 8px;">Best with face photos • JPG, PNG</div>
+    </div>
+    <input type="file" id="imageInput" accept="image/*">
+
+    <label>Your Text (this will create the portrait):</label>
+    <textarea id="textInput" placeholder="Type or paste any text here - song lyrics, quotes, poems, etc.">Lights go down and the night is calling to me yeah I hear voices singing songs in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah</textarea>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <label>Portrait Width (characters)</label>
+        <span id="widthValue">140</span>
+      </div>
+      <input type="range" id="widthSlider" min="60" max="200" value="140">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <label>Contrast</label>
+        <span id="contrastValue">1.5</span>
+      </div>
+      <input type="range" id="contrastSlider" min="0.5" max="3" step="0.1" value="1.5">
+    </div>
+
+    <div class="slider-group">
+      <div class="slider-header">
+        <label>Brightness</label>
+        <span id="brightnessValue">1.0</span>
+      </div>
+      <input type="range" id="brightnessSlider" min="0.5" max="2" step="0.1" value="1.0">
+    </div>
+
+    <div class="button-group">
+      <button class="primary" id="generateBtn" disabled>⚡ GENERATE PORTRAIT</button>
+      <button id="downloadBtn" disabled>💾 Save as PNG</button>
+      <button id="copyBtn" disabled>📋 Copy Text</button>
+    </div>
+
+    <div class="tips">
+      <strong>💡 Tips for Best Results:</strong>
+      • Use high-contrast face photos with good lighting<br>
+      • Clear background works better than busy backgrounds<br>
+      • Adjust sliders after generating to fine-tune the portrait<br>
+      • Longer text creates more detailed portraits
+    </div>
+  </div>
+
+  <div id="output">
+    <div id="placeholder">
+      <div class="icon">🎨</div>
+      <div>Upload a photo and click Generate to see your text portrait</div>
+    </div>
+  </div>
 </div>
 
-<div class="portrait-container">
-  <pre id="portrait">Lights g        o down   and the night is calling to me yeah I hear vo          i        ces singing so               n  gs in  th e stree  
-t And I          know     tha t        we won't b e going home for so                    long for s o long          B      ut I  k now th   
-at I won'       t be      on  m        y own yeah I love this feeling and                  Right now I wis                    h you were    
- here wit       h me O   h-o            oh Cause right now Everythi ng is new       t      o me Oh-ooh You k  now           I c     an'     
-t fight th      e feeling An             d every ni     g   h                                   t        I                   feel it Right n
-ow I wish       you w            ere  here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing songs in 
-the s treet And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling and
- Right now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every n
-ight I feel it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing songs 
-in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling a
-nd Right now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every
- night I feel it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing song
-s in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling
- and Right now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And eve
-ry night I fee l it Right now I wish y   ou w                                           ere   here with me Oh-ooh Lights go down and the   n
-      i  ght     is     calli    ng t                                                   o m   e yeah I hear voices singing songs in the stre
-              et  An    d I k    now                                                    that we won't be going home for so long for so long 
-                But I   know t  hat                                                                                                         
-I              won'   t  b   e on m y own yeah I love this feeling and Right now I wish y  ou wer  e h                                      
-ere with me          Oh   -oo                                  h Cause right now Everyth   ing i    s n                                     
-ew     to          me      Oh                                  -ooh You know I can't fi   ght th    e                                       
-fee ling A          nd    ever   y      night I feel                                                                       it Righ       t n
-ow I wish you were here with me Oh-ooh Lights go down a   nd              t      h      e            n    ight is calling to me yea h I hear
- voices singing songs in the street And I know that we w   o       n                                 ' t be going home for so l o    ng for 
-so long But I know that I won't be on my own yeah I love this    f e   e              l            ing and Right now I wi s      h     you w
-ere here with me Oh-ooh Cause right now Everything is new to me Oh-ooh Yo u           k             now I can't fight     th  e        feeli
-ng And every night I feel it Right now I wish you were here with me Oh-ooh                         Lights go dow n                a  n  d th
-e night is calling to me yeah I hear voices singing songs in the street And     I                   know that            w      e won't be g
-oing home for so long for so long But I know that I won't be on my own yeah                           I l     o              v  e this feeli
-ng and Right now I wish you were here with me Oh-ooh Cause right now Everyth    i                   ng          i      s     new to me Oh-oo
-h You know I can't fight the feeling And every night I feel it Right n ow      I                     w  i  s h          you  were here with 
-me Oh-ooh Lights go down and the night is calling to me yea h I hea r voic e     s                      s    i n     ging songs in the stree
-t And I know that we won't be going home for so   long fo r so lon g  But  I      k       n             o    w    t hat I won't b   e on my 
-own yeah I love this feeling and Right now  I     wish yo   u were here wi  th    m               e        O    h-ooh Cause righ    t  now E
-verything is new to me Oh-ooh You know I can't     fight      the   feel i   ng   An d                e    v     ery night I feel     it Rig
-ht now I wish you were here with me Oh-ooh  Li  gh ts go      d  o  wn a    nd    the      n         ig   ht     is calling to me    yeah I 
-hear voices singing songs in the street An  d I   k now t     h  a   t   w  e wo  n'    t            be    g    oing home for so   long for 
-so long But I know that I won't be on my  own    ye ah I l  o       v      e  t      h is         f      ee    lin g and Rig h t  now I wish
- you were here with me Oh-ooh Cause right now  E verything      i          s      n    ew     t      o         me O   h      -  o oh    You 
-know I can't fight the feeling And every night I feel it Right  now         I wi  sh     yo   u            w  e  re       h   er e      wi t
-h me Oh-ooh Lights go down and the night is calling to me yeah I hear v   o     ices  s     i     n    g    i    n g        s  o    n  gs   
-in the street And I know that we won't be going home for so long for so lon g        B   ut          I       k    n     o    w         t   h
-at I won't be on my own yeah I love this feeling and Right now I wish you we  r    e      her   e        w    ith      m   e              Oh
--ooh Cause right now Everything is new to me Oh-ooh You know I      can't fig ht th   e   f  eeli   n   g           A  n       d            
-every night I feel it Right now I wish you were here with me Oh     -ooh Lig   ht s   go   dow  n             an   d             t     h   e
- night is calling to me yeah I hear voices singing songs in the     s  tr  e      e    t         An d       I     kno     w                 
-that we won't be going home for so long for so long But I know t  h         at     I    won't b e o  n      my                      o    w  
-n yeah I love this feeling and Right now I wish you were here w     i     th  me   O    h -ooh Ca us    e ri     g         h                
-t now Everything is new to me Oh-ooh You know I can't figh   t       t    he      f       eel  in   g    A     n     d                 e    
-very night I feel it Right now I wish you were here with m   e Oh-      o  oh     Lig   ht  s go dow n            a                         
-nd the night is calling to me yeah I hear voices singin  g        so  ng   s   in      t      he street And I kn o  w                       
-that we won't be going home for so long for so long Bu  t        I    kno   w   t  hat  I wo   n    't          be on     my              ow
-n yeah I love this feeling and Right now I wish you w  ere         h  ere   w it h      me        Oh-  o   o                h Cause right now
- Everything is new to me Oh-ooh You know I can't fi  ght           t  he     fee  l   in    g                    An  d      every night I fee
-l it Right now I wish you were here with me Oh-oo  h Li              g    h  ts go       down and the ni   g    h  t is calling to me yeah I
- hear voices singing songs in the street And I  k   now that we wo                   n   ' t be going ho m  e fo r so long for so long But I
- know that I won't be on my own yeah I  l      ove th     is           f   e                                e  lin g and Right now I wish you
- were here with me Oh-ooh Cause righ   t          n          ow         E    v e                                          rything is new to 
-me Oh-ooh You know I can't fight t   he            fee     l   i         n     g                    A       nd                 every night I
- feel it Right now I wish you w     er        e        h      ere        wi      th   me          Oh-o       o    h      Lights go down and 
-the night is calling to me y      ea   h       I         h        ear   voi  ce s    s    inging songs in the street And I know that we won'
-t be going home for so long      fo r   so lon       g             But I k  no  w t  h  at I won't be on my own yeah I love this feeling and
- Right now I wish you were       h   e   re wi     th me O                h  -  ooh Caus  e right now Everything is new to me Oh-ooh You kno
-w I can't fight the feel      in     g    And     ever  y n     i              g  h    t  I  feel it Right now I wish you were here with me 
-Oh-ooh Lights go down      an      d       the      nig   h t    i s            c  a   ll  i  ng to me yeah I hear voices singing songs in t
-he street And I know      that      w       e w     o  n 't   b    e             g      oi ng home for so long for so long But I know that I 
-won't be on my own      ye        a        h I l o v e t h  is     f                    eeling and Right now I wish you were here with me Oh-
-ooh Cause right n      o w  E     v       erything i s    n  ew    to  m                 e Oh-ooh You know I can't fight the feeling And eve
-ry night I fee  l      it    R  i g   h t now I wi  s h      yo   u were       h         ere with me Oh-ooh Lights go down and the night is 
-calling to m  e        y    ea h  I h ea r voices   s i  ng    i n   g         s         ongs in the street And I know that we won't be going
- home for so lo ng for so lon g   But  I  know th at  I    wo n't b e on my own yeah I love this feeling and Right now I wish you were here 
-with me Oh-ooh Cau se  ri g ht   now Ev er ythi n g is new to me Oh-ooh You know I can't fight the feeling And every night I feel it Right n
-ow I wish you were   h e r  e  with me  O h-ooh L ig hts go down and the night is calling to me yeah I hear voices singing songs in the stre
-et And I know that we won't b e g oing h om e for so long for so long But I know that I won't be on my own yeah I love this feeling and Righ
-t now I wish you were here w   i t h me O h-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every 
-night I feel it Right now I w is h yo u   were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing 
-songs in the street And I k   no w  th a t we won't be going home for so long for so long But I know that I won't be on my own yeah I love t
-his feeling and Right now     I w is h    you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight
- the feeling And every n      i  gh t I    feel it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to 
-me yeah I hear voices       si n gi  n    g songs in the street And I know that we won't be going home for so long for so long But I know th
-at I won't be on my o        w n   y e    ah I love this feeling and Right now I wish you were here with me Oh-ooh Cause right now Everythin
-g is new to me Oh-o           oh  Y o    u know I can't fight the feeling And every night I feel it Right now I wish you were here with me O
-h-ooh Lights go                do  w n    and the night is calling to me yeah I hear voices singing songs in the street And I know that we w
-on't be going                 h  o me    for so long for so long But I know that I won't be on my own yeah I love this feeling and Right now
- I wish you we re here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every night I fe
-el it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing songs in the st
-reet And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling and Right 
-now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every night I 
-                     feel it Right now I wish you were here with me Oh-ooh </pre>
-</div>
-
-<div class="controls">
-  <button onclick="downloadImage()">💾 Save as Image</button>
-  <button onclick="copyToClipboard()">📋 Copy Text</button>
-</div>
-
-<div class="footer">
-  <p>Text portrait made from song lyrics</p>
-</div>
-
-<canvas id="downloadCanvas" style="display:none;"></canvas>
+<canvas id="imageCanvas"></canvas>
+<canvas id="downloadCanvas"></canvas>
 
 <script>
-  function downloadImage() {
-    const pre = document.getElementById('portrait');
-    const text = pre.textContent;
-    const lines = text.split('\n');
+  let uploadedImage = null;
+
+  // DOM elements
+  const imageInput = document.getElementById('imageInput');
+  const uploadArea = document.getElementById('uploadArea');
+  const uploadText = document.getElementById('uploadText');
+  const textInput = document.getElementById('textInput');
+  const widthSlider = document.getElementById('widthSlider');
+  const contrastSlider = document.getElementById('contrastSlider');
+  const brightnessSlider = document.getElementById('brightnessSlider');
+  const generateBtn = document.getElementById('generateBtn');
+  const downloadBtn = document.getElementById('downloadBtn');
+  const copyBtn = document.getElementById('copyBtn');
+  const output = document.getElementById('output');
+
+  // Update slider values
+  widthSlider.oninput = () => document.getElementById('widthValue').textContent = widthSlider.value;
+  contrastSlider.oninput = () => document.getElementById('contrastValue').textContent = parseFloat(contrastSlider.value).toFixed(1);
+  brightnessSlider.oninput = () => document.getElementById('brightnessValue').textContent = parseFloat(brightnessSlider.value).toFixed(1);
+
+  // Handle image upload
+  imageInput.onchange = (e) => {
+    const file = e.target.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (ev) => {
+      const img = new Image();
+      img.onload = () => {
+        uploadedImage = img;
+        uploadArea.classList.add('has-image');
+        uploadText.innerHTML = `<strong>✓ Image loaded: ${file.name}</strong><br><span style="font-size:0.75rem">Click to change</span>`;
+        generateBtn.disabled = false;
+      };
+      img.src = ev.target.result;
+    };
+    reader.readAsDataURL(file);
+  };
+
+  // Generate portrait
+  generateBtn.onclick = () => {
+    if (!uploadedImage) {
+      alert('Please upload an image first!');
+      return;
+    }
+
+    const text = textInput.value.trim() || 'Text Portrait ';
+    const cols = parseInt(widthSlider.value);
+    const contrastFactor = parseFloat(contrastSlider.value);
+    const brightnessFactor = parseFloat(brightnessSlider.value);
+
+    const charAspect = 0.55;
+    const canvas = document.getElementById('imageCanvas');
+    const ctx = canvas.getContext('2d');
+
+    const scale = cols / uploadedImage.width;
+    const rows = Math.floor(uploadedImage.height * scale * charAspect);
+    canvas.width = cols;
+    canvas.height = rows;
+
+    ctx.drawImage(uploadedImage, 0, 0, cols, rows);
+    const imageData = ctx.getImageData(0, 0, cols, rows);
+    const data = imageData.data;
+
+    let textIndex = 0;
+    let result = '';
+
+    for (let y = 0; y < rows; y++) {
+      for (let x = 0; x < cols; x++) {
+        const idx = (y * cols + x) * 4;
+        let r = data[idx], g = data[idx + 1], b = data[idx + 2];
+
+        // Grayscale
+        let gray = 0.299 * r + 0.587 * g + 0.114 * b;
+
+        // Brightness
+        gray = gray * brightnessFactor;
+
+        // Contrast
+        gray = (gray - 128) * contrastFactor + 128;
+        gray = Math.max(0, Math.min(255, gray));
+
+        // Threshold
+        const threshold = 128;
+        if (gray < threshold) {
+          let ch = text[textIndex % text.length];
+          textIndex++;
+          while (ch === '\n' || ch === '\r') {
+            textIndex++;
+            ch = text[textIndex % text.length];
+          }
+          result += ch;
+        } else {
+          result += ' ';
+        }
+      }
+      result += '\n';
+    }
+
+    // Display portrait
+    output.innerHTML = '<pre id="portrait"></pre>';
+    document.getElementById('portrait').textContent = result;
     
+    downloadBtn.disabled = false;
+    copyBtn.disabled = false;
+  };
+
+  // Download as PNG
+  downloadBtn.onclick = () => {
+    const pre = document.getElementById('portrait');
+    if (!pre) return;
+
+    const lines = pre.textContent.split('\n');
     const fontSize = 7;
     const lineHeight = Math.floor(fontSize * 1.15);
     const charWidth = fontSize * 0.6;
     const padding = 40;
-    
+
     const maxCols = Math.max(...lines.map(l => l.length));
     const w = Math.ceil(maxCols * charWidth) + padding * 2;
     const h = lines.length * lineHeight + padding * 2;
-    
+
     const canvas = document.getElementById('downloadCanvas');
     canvas.width = w;
     canvas.height = h;
     const ctx = canvas.getContext('2d');
-    
+
     ctx.fillStyle = '#000000';
     ctx.fillRect(0, 0, w, h);
-    
-    ctx.fillStyle = '#e8e8e8';
-    ctx.font = `${fontSize}px "Courier New", monospace`;
-    
-    lines.forEach((line, i) => {
-      ctx.fillText(line, padding, padding + (i + 1) * lineHeight);
-    });
-    
-    const link = document.createElement('a');
-    link.download = 'text-portrait.png';
-    link.href = canvas.toDataURL('image/png');
-    link.click();
-  }
-  
-  function copyToClipboard() {
-    const text = document.getElementById('portrait').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      alert('Portrait copied to clipboard!');
-    });
-  }
-</script>
-
-</body>
-</html>      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @media (min-width: 768px) {
-      pre { font-size: 6px; }
-      .header h1 { font-size: 3rem; }
-    }
-
-    .footer {
-      margin-top: 40px;
-      text-align: center;
-      color: #555;
-      font-size: 0.75rem;
-      animation: fadeIn 2s ease-out;
-    }
-  </style>
-</head>
-<body>
-
-<div class="header">
-  <h1>RIGHT NOW</h1>
-  <p>A TEXT PORTRAIT</p>
-</div>
-
-<div class="portrait-container">
-  <pre id="portrait">
-                                                                                                                        
-                                                                                                                        
-                                                      LightsgodownandthenightiscallingtomeyeahIhearvoicessingingsongsint                                                     
-                                          hestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingan                                         
-                                   dRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfe                                  
-                              elitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt                             
-                          obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewit                         
-                       hme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwere                      
-                    herewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandin                   
-                  dthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon't                 
-                 beon myownyeahIlovethisfeelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfigh                
-                tthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJus               
-               tlikeHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwerehe              
-              rewithme(Oh-oo   h)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereher             
-             ewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthenig            
-             htiscalling    tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyo            
-            wnyeahIlovethisf  eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeeli           
-            ngAndeverynightIfe elitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowi           
-            tusedt           obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherew           
-           ithme(Oh-ooh)'C     auserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereh            
-           erewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindth            
-           enightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeono           
-           wnyeahIlovethisf  eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefee           
-           lingAndeverynig   htIfeelitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustli           
-           keHowitusedt         obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwer           
-           eherewithme(Oh-        ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishy           
-          ouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownand           
-          indthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tb          
-          eonmyownyeahIlovethisf  eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightth          
-          efeelingAndeverynightIf   elitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustl          
-         ikeHowitusedt              obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouw          
-         ereherewithme(Oh-o              oh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowI          
-         wishyouwereherewith                me(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-o          
-        h-oh)Lightsgodownandindthe           nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,f          
-        orsolongButIknowthatIwon'tbeon         myownyeahIlovethisfeelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisne         
-        wtome(Oh-ooh)YouknowIcan'tf              ightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspacesWith         
-        allourfriendsyouandmeyeahLove              thesefacesJustlikeHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tb         
-       eonmyownOnmyown,I'mfeelinglikeRi              ghtnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan        
-       'tfightthefeelingAndeverynightIf                eelitRightnowIwishyouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-o        
-       h)Andlet'sgocrazytogether(Woah-o                 h-oh,woah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsint       
-      HestreetAndIknowthatweOn'tbegoing                  HomeforsolongforsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingandRightnowIwish       
-      youwereherewithme(Oh-ooh)'Causerig                   htnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRight       
-      nowIwishyouwereherewithme(Oh-ooh                       )LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAn      
-     dwewon'tbegoingHomeForsolong,fo                           rsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwerehe      
-     rewithme(Oh-ooh)'Causerightno                                EverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightI      
-     feelitRightnowIwishyouwereh                                    erewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'      
-     sgocrazytogether(Woah-oh-oh,w                                      oah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicess      
-     ingingsongsintHestreetAndI                                            knowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbe      
-     onmyownyeahIlovethisfeel                                                 ingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEvery      
-     thingisnewtoMe(Oh-ooh)Yo                                                     uknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwish     
-     youwereherewithme(Oh-oo                                                         h)LatenightspaceswithallourfriendsyouandmeyeahLovethesefa     
-     cesJustlikeHowitusedt                                                               obeAndwewon'tbegoingHomeForsolong,forsolongButIknowI     
-     won'tbeonmyownOnmyown,                                                                   I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-     
-     ooh)'Causerightno                                                                          EverythingisnewtoMe(Oh-ooh)YouknowIcan'tfight     
-     thefeelingAndeverynightIfeel                                                                  itRightnowIwishyouwereherewithme(Oh-ooh)An     
-     dIcouldDothisforever(Woah-oh-o                                                                   h,woah-oh-oh)Andlet'sgocrazytogether(Wo     
-     ah-oh-oh,woah-oh-oh)Lightsgodownand                                                                indthe nightiscalling tomeyeahIhearv     
-     oicessingingsongsintHestreetAndIknowthatw                                                            eOn'tbegoingHomeforsolong,forsolon     
-     gButIknowthatIwon'tbeonmyownyeahIlovethisfeeling                                                       andRightnowIwishyouwereh erewithm     
-     e(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIc                                                 an'tfightthefeelingAndeveryn     
-     ightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)Latenightspaceswithallourfriendsyouandm                      eyeahLovethesefacesJustli     
-     keHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelingli        keRightnowIwishyouwerehe     
-     rewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRi   ghtnowIwishyouwereh erewi     
-     thme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthe nightiscall     
-     ing tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisf     
-      eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeeli      
-      tRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAndwewon'tbegoi      
-      ngHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisn      
-      ewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,      
-       woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsintHestr       
-       eetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingandRightnowIwishyouwereh erewithme(       
-        Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-oo        
-         h)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIkno         
-          wIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'          
-           tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet's           
-            gocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowt            
-              hatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingandRightnowIwishyouwereherewithme(Oh-              
-                ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereh erewithm                
-                   e(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAndwewon'tbegoingHomeForso                   
-                        long,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-ooh)'Causeright                        
-                              noEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewi                              
-                                     thme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-                                     
-                                             oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreet                                             
-                                                       AndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmy                                                       
-                                                                 ownyeahIlovethisfeelingandRightnowIwishyouwereherewithme                                                                 
-                                                                                                                                                                                         
-  </pre>
-</div>
-
-<div class="controls">
-  <button onclick="window.print()">🖨️ Print</button>
-  <button onclick="downloadImage()">💾 Save as Image</button>
-  <button onclick="copyToClipboard()">📋 Copy Text</button>
-</div>
-
-<div class="footer">
-  <p>Text portrait created from song lyrics • "Right Now" by One Direction</p>
-</div>
-
-<canvas id="downloadCanvas" style="display:none;"></canvas>
-
-<script>
-  function downloadImage() {
-    const pre = document.getElementById('portrait');
-    const text = pre.textContent;
-    const lines = text.split('\n');
-    
-    const fontSize = 7;
-    const lineHeight = Math.floor(fontSize * 1.1);
-    const charWidth = fontSize * 0.6;
-    const padding = 40;
-    
-    const maxCols = Math.max(...lines.map(l => l.length));
-    const w = Math.ceil(maxCols * charWidth) + padding * 2;
-    const h = lines.length * lineHeight + padding * 2;
-    
-    const canvas = document.getElementById('downloadCanvas');
-    canvas.width = w;
-    canvas.height = h;
-    const ctx = canvas.getContext('2d');
-    
-    // Background
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, w, h);
-    
-    // Text
     ctx.fillStyle = '#ffffff';
     ctx.font = `${fontSize}px "Courier New", monospace`;
-    
+
     lines.forEach((line, i) => {
       ctx.fillText(line, padding, padding + (i + 1) * lineHeight);
     });
-    
-    // Download
+
     const link = document.createElement('a');
     link.download = 'text-portrait.png';
     link.href = canvas.toDataURL('image/png');
     link.click();
-  }
-  
-  function copyToClipboard() {
-    const text = document.getElementById('portrait').textContent;
-    navigator.clipboard.writeText(text).then(() => {
-      alert('Portrait copied to clipboard!');
+  };
+
+  // Copy to clipboard
+  copyBtn.onclick = () => {
+    const pre = document.getElementById('portrait');
+    if (!pre) return;
+
+    navigator.clipboard.writeText(pre.textContent).then(() => {
+      const originalText = copyBtn.textContent;
+      copyBtn.textContent = '✓ Copied!';
+      setTimeout(() => {
+        copyBtn.textContent = originalText;
+      }, 2000);
     });
-  }
+  };
 </script>
 
 </body>
