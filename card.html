@@ -14,47 +14,47 @@
     }
 
     body {
-      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      background: #000000;
       min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      padding: 40px 20px;
+      padding: 20px;
       font-family: 'Space Mono', monospace;
       overflow-x: hidden;
     }
 
     .header {
       text-align: center;
-      margin-bottom: 40px;
+      margin-bottom: 30px;
       animation: fadeInDown 1s ease-out;
     }
 
     .header h1 {
-      font-size: 2.5rem;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+      font-size: 2rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #ffd93d);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
       background-clip: text;
-      letter-spacing: 0.1em;
+      letter-spacing: 0.15em;
       font-weight: 700;
-      margin-bottom: 10px;
+      margin-bottom: 8px;
     }
 
     .header p {
-      color: #888;
-      font-size: 0.9rem;
-      letter-spacing: 0.2em;
+      color: #666;
+      font-size: 0.75rem;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
     }
 
     .portrait-container {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 12px;
-      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
-      backdrop-filter: blur(10px);
-      border: 1px solid rgba(255, 255, 255, 0.1);
+      background: rgba(10, 10, 10, 0.8);
+      padding: 25px;
+      border-radius: 8px;
+      box-shadow: 0 0 80px rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.05);
       animation: fadeIn 1.5s ease-out;
       max-width: 95vw;
       overflow-x: auto;
@@ -62,57 +62,227 @@
 
     pre {
       font-family: 'Courier New', monospace;
-      font-size: 5px;
-      line-height: 1.1;
-      letter-spacing: 0.03em;
-      color: #ffffff;
+      font-size: 5.5px;
+      line-height: 1.15;
+      letter-spacing: 0.02em;
+      color: #e8e8e8;
       white-space: pre;
-      text-align: center;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
+      text-shadow: 0 0 15px rgba(255, 255, 255, 0.2);
     }
 
     .controls {
-      margin-top: 30px;
+      margin-top: 25px;
       display: flex;
-      gap: 15px;
+      gap: 12px;
       flex-wrap: wrap;
       justify-content: center;
       animation: fadeInUp 1.5s ease-out;
     }
 
     button {
-      background: rgba(255, 255, 255, 0.1);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      padding: 12px 24px;
-      border-radius: 6px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      color: #ccc;
+      padding: 10px 20px;
+      border-radius: 5px;
       cursor: pointer;
       font-family: 'Space Mono', monospace;
-      font-size: 0.85rem;
+      font-size: 0.8rem;
       letter-spacing: 0.05em;
       transition: all 0.3s;
-      backdrop-filter: blur(5px);
     }
 
     button:hover {
-      background: rgba(255, 255, 255, 0.2);
+      background: rgba(255, 255, 255, 0.15);
       transform: translateY(-2px);
-      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
+      color: #fff;
     }
 
     @keyframes fadeIn {
-      from { opacity: 0; transform: scale(0.95); }
+      from { opacity: 0; transform: scale(0.98); }
       to { opacity: 1; transform: scale(1); }
     }
 
     @keyframes fadeInDown {
-      from { opacity: 0; transform: translateY(-30px); }
+      from { opacity: 0; transform: translateY(-20px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
     @keyframes fadeInUp {
-      from { opacity: 0; transform: translateY(30px); }
+      from { opacity: 0; transform: translateY(20px); }
       to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (min-width: 768px) {
+      pre { font-size: 6.5px; }
+      .header h1 { font-size: 2.5rem; }
+    }
+
+    .footer {
+      margin-top: 30px;
+      text-align: center;
+      color: #444;
+      font-size: 0.7rem;
+      animation: fadeIn 2s ease-out;
+    }
+  </style>
+</head>
+<body>
+
+<div class="header">
+  <h1>✦ RIGHT NOW ✦</h1>
+  <p>Text Portrait</p>
+</div>
+
+<div class="portrait-container">
+  <pre id="portrait">Lights g        o down   and the night is calling to me yeah I hear vo          i        ces singing so               n  gs in  th e stree  
+t And I          know     tha t        we won't b e going home for so                    long for s o long          B      ut I  k now th   
+at I won'       t be      on  m        y own yeah I love this feeling and                  Right now I wis                    h you were    
+ here wit       h me O   h-o            oh Cause right now Everythi ng is new       t      o me Oh-ooh You k  now           I c     an'     
+t fight th      e feeling An             d every ni     g   h                                   t        I                   feel it Right n
+ow I wish       you w            ere  here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing songs in 
+the s treet And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling and
+ Right now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every n
+ight I feel it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing songs 
+in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling a
+nd Right now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every
+ night I feel it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing song
+s in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling
+ and Right now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And eve
+ry night I fee l it Right now I wish y   ou w                                           ere   here with me Oh-ooh Lights go down and the   n
+      i  ght     is     calli    ng t                                                   o m   e yeah I hear voices singing songs in the stre
+              et  An    d I k    now                                                    that we won't be going home for so long for so long 
+                But I   know t  hat                                                                                                         
+I              won'   t  b   e on m y own yeah I love this feeling and Right now I wish y  ou wer  e h                                      
+ere with me          Oh   -oo                                  h Cause right now Everyth   ing i    s n                                     
+ew     to          me      Oh                                  -ooh You know I can't fi   ght th    e                                       
+fee ling A          nd    ever   y      night I feel                                                                       it Righ       t n
+ow I wish you were here with me Oh-ooh Lights go down a   nd              t      h      e            n    ight is calling to me yea h I hear
+ voices singing songs in the street And I know that we w   o       n                                 ' t be going home for so l o    ng for 
+so long But I know that I won't be on my own yeah I love this    f e   e              l            ing and Right now I wi s      h     you w
+ere here with me Oh-ooh Cause right now Everything is new to me Oh-ooh Yo u           k             now I can't fight     th  e        feeli
+ng And every night I feel it Right now I wish you were here with me Oh-ooh                         Lights go dow n                a  n  d th
+e night is calling to me yeah I hear voices singing songs in the street And     I                   know that            w      e won't be g
+oing home for so long for so long But I know that I won't be on my own yeah                           I l     o              v  e this feeli
+ng and Right now I wish you were here with me Oh-ooh Cause right now Everyth    i                   ng          i      s     new to me Oh-oo
+h You know I can't fight the feeling And every night I feel it Right n ow      I                     w  i  s h          you  were here with 
+me Oh-ooh Lights go down and the night is calling to me yea h I hea r voic e     s                      s    i n     ging songs in the stree
+t And I know that we won't be going home for so   long fo r so lon g  But  I      k       n             o    w    t hat I won't b   e on my 
+own yeah I love this feeling and Right now  I     wish yo   u were here wi  th    m               e        O    h-ooh Cause righ    t  now E
+verything is new to me Oh-ooh You know I can't     fight      the   feel i   ng   An d                e    v     ery night I feel     it Rig
+ht now I wish you were here with me Oh-ooh  Li  gh ts go      d  o  wn a    nd    the      n         ig   ht     is calling to me    yeah I 
+hear voices singing songs in the street An  d I   k now t     h  a   t   w  e wo  n'    t            be    g    oing home for so   long for 
+so long But I know that I won't be on my  own    ye ah I l  o       v      e  t      h is         f      ee    lin g and Rig h t  now I wish
+ you were here with me Oh-ooh Cause right now  E verything      i          s      n    ew     t      o         me O   h      -  o oh    You 
+know I can't fight the feeling And every night I feel it Right  now         I wi  sh     yo   u            w  e  re       h   er e      wi t
+h me Oh-ooh Lights go down and the night is calling to me yeah I hear v   o     ices  s     i     n    g    i    n g        s  o    n  gs   
+in the street And I know that we won't be going home for so long for so lon g        B   ut          I       k    n     o    w         t   h
+at I won't be on my own yeah I love this feeling and Right now I wish you we  r    e      her   e        w    ith      m   e              Oh
+-ooh Cause right now Everything is new to me Oh-ooh You know I      can't fig ht th   e   f  eeli   n   g           A  n       d            
+every night I feel it Right now I wish you were here with me Oh     -ooh Lig   ht s   go   dow  n             an   d             t     h   e
+ night is calling to me yeah I hear voices singing songs in the     s  tr  e      e    t         An d       I     kno     w                 
+that we won't be going home for so long for so long But I know t  h         at     I    won't b e o  n      my                      o    w  
+n yeah I love this feeling and Right now I wish you were here w     i     th  me   O    h -ooh Ca us    e ri     g         h                
+t now Everything is new to me Oh-ooh You know I can't figh   t       t    he      f       eel  in   g    A     n     d                 e    
+very night I feel it Right now I wish you were here with m   e Oh-      o  oh     Lig   ht  s go dow n            a                         
+nd the night is calling to me yeah I hear voices singin  g        so  ng   s   in      t      he street And I kn o  w                       
+that we won't be going home for so long for so long Bu  t        I    kno   w   t  hat  I wo   n    't          be on     my              ow
+n yeah I love this feeling and Right now I wish you w  ere         h  ere   w it h      me        Oh-  o   o                h Cause right now
+ Everything is new to me Oh-ooh You know I can't fi  ght           t  he     fee  l   in    g                    An  d      every night I fee
+l it Right now I wish you were here with me Oh-oo  h Li              g    h  ts go       down and the ni   g    h  t is calling to me yeah I
+ hear voices singing songs in the street And I  k   now that we wo                   n   ' t be going ho m  e fo r so long for so long But I
+ know that I won't be on my own yeah I  l      ove th     is           f   e                                e  lin g and Right now I wish you
+ were here with me Oh-ooh Cause righ   t          n          ow         E    v e                                          rything is new to 
+me Oh-ooh You know I can't fight t   he            fee     l   i         n     g                    A       nd                 every night I
+ feel it Right now I wish you w     er        e        h      ere        wi      th   me          Oh-o       o    h      Lights go down and 
+the night is calling to me y      ea   h       I         h        ear   voi  ce s    s    inging songs in the street And I know that we won'
+t be going home for so long      fo r   so lon       g             But I k  no  w t  h  at I won't be on my own yeah I love this feeling and
+ Right now I wish you were       h   e   re wi     th me O                h  -  ooh Caus  e right now Everything is new to me Oh-ooh You kno
+w I can't fight the feel      in     g    And     ever  y n     i              g  h    t  I  feel it Right now I wish you were here with me 
+Oh-ooh Lights go down      an      d       the      nig   h t    i s            c  a   ll  i  ng to me yeah I hear voices singing songs in t
+he street And I know      that      w       e w     o  n 't   b    e             g      oi ng home for so long for so long But I know that I 
+won't be on my own      ye        a        h I l o v e t h  is     f                    eeling and Right now I wish you were here with me Oh-
+ooh Cause right n      o w  E     v       erything i s    n  ew    to  m                 e Oh-ooh You know I can't fight the feeling And eve
+ry night I fee  l      it    R  i g   h t now I wi  s h      yo   u were       h         ere with me Oh-ooh Lights go down and the night is 
+calling to m  e        y    ea h  I h ea r voices   s i  ng    i n   g         s         ongs in the street And I know that we won't be going
+ home for so lo ng for so lon g   But  I  know th at  I    wo n't b e on my own yeah I love this feeling and Right now I wish you were here 
+with me Oh-ooh Cau se  ri g ht   now Ev er ythi n g is new to me Oh-ooh You know I can't fight the feeling And every night I feel it Right n
+ow I wish you were   h e r  e  with me  O h-ooh L ig hts go down and the night is calling to me yeah I hear voices singing songs in the stre
+et And I know that we won't b e g oing h om e for so long for so long But I know that I won't be on my own yeah I love this feeling and Righ
+t now I wish you were here w   i t h me O h-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every 
+night I feel it Right now I w is h yo u   were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing 
+songs in the street And I k   no w  th a t we won't be going home for so long for so long But I know that I won't be on my own yeah I love t
+his feeling and Right now     I w is h    you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight
+ the feeling And every n      i  gh t I    feel it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to 
+me yeah I hear voices       si n gi  n    g songs in the street And I know that we won't be going home for so long for so long But I know th
+at I won't be on my o        w n   y e    ah I love this feeling and Right now I wish you were here with me Oh-ooh Cause right now Everythin
+g is new to me Oh-o           oh  Y o    u know I can't fight the feeling And every night I feel it Right now I wish you were here with me O
+h-ooh Lights go                do  w n    and the night is calling to me yeah I hear voices singing songs in the street And I know that we w
+on't be going                 h  o me    for so long for so long But I know that I won't be on my own yeah I love this feeling and Right now
+ I wish you we re here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every night I fe
+el it Right now I wish you were here with me Oh-ooh Lights go down and the night is calling to me yeah I hear voices singing songs in the st
+reet And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah I love this feeling and Right 
+now I wish you were here with me Oh-ooh Cause right now Everything is new to me Oh-ooh You know I can't fight the feeling And every night I 
+                     feel it Right now I wish you were here with me Oh-ooh </pre>
+</div>
+
+<div class="controls">
+  <button onclick="downloadImage()">💾 Save as Image</button>
+  <button onclick="copyToClipboard()">📋 Copy Text</button>
+</div>
+
+<div class="footer">
+  <p>Text portrait made from song lyrics</p>
+</div>
+
+<canvas id="downloadCanvas" style="display:none;"></canvas>
+
+<script>
+  function downloadImage() {
+    const pre = document.getElementById('portrait');
+    const text = pre.textContent;
+    const lines = text.split('\n');
+    
+    const fontSize = 7;
+    const lineHeight = Math.floor(fontSize * 1.15);
+    const charWidth = fontSize * 0.6;
+    const padding = 40;
+    
+    const maxCols = Math.max(...lines.map(l => l.length));
+    const w = Math.ceil(maxCols * charWidth) + padding * 2;
+    const h = lines.length * lineHeight + padding * 2;
+    
+    const canvas = document.getElementById('downloadCanvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, w, h);
+    
+    ctx.fillStyle = '#e8e8e8';
+    ctx.font = `${fontSize}px "Courier New", monospace`;
+    
+    lines.forEach((line, i) => {
+      ctx.fillText(line, padding, padding + (i + 1) * lineHeight);
+    });
+    
+    const link = document.createElement('a');
+    link.download = 'text-portrait.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+  
+  function copyToClipboard() {
+    const text = document.getElementById('portrait').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Portrait copied to clipboard!');
+    });
+  }
+</script>
+
+</body>
+</html>      to { opacity: 1; transform: translateY(0); }
     }
 
     @media (min-width: 768px) {
