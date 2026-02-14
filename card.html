@@ -1,317 +1,290 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Text Portrait</title>
+  <title>Text Portrait - Right Now</title>
   <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
+    @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&display=swap');
+    
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
     body {
-      background: #0a0a0a;
+      background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+      min-height: 100vh;
       display: flex;
       flex-direction: column;
       align-items: center;
       justify-content: center;
-      min-height: 100vh;
+      padding: 40px 20px;
+      font-family: 'Space Mono', monospace;
+      overflow-x: hidden;
+    }
+
+    .header {
+      text-align: center;
+      margin-bottom: 40px;
+      animation: fadeInDown 1s ease-out;
+    }
+
+    .header h1 {
+      font-size: 2.5rem;
+      background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45b7d1);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      letter-spacing: 0.1em;
+      font-weight: 700;
+      margin-bottom: 10px;
+    }
+
+    .header p {
+      color: #888;
+      font-size: 0.9rem;
+      letter-spacing: 0.2em;
+    }
+
+    .portrait-container {
+      background: rgba(0, 0, 0, 0.6);
+      padding: 30px;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.5);
+      backdrop-filter: blur(10px);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      animation: fadeIn 1.5s ease-out;
+      max-width: 95vw;
+      overflow-x: auto;
+    }
+
+    pre {
       font-family: 'Courier New', monospace;
-      color: #fff;
-      padding: 20px;
+      font-size: 5px;
+      line-height: 1.1;
+      letter-spacing: 0.03em;
+      color: #ffffff;
+      white-space: pre;
+      text-align: center;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.3);
     }
 
-    h1 {
-      font-size: 1.2rem;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: #aaa;
-      margin-bottom: 20px;
-    }
-
-    #controls {
+    .controls {
+      margin-top: 30px;
       display: flex;
+      gap: 15px;
       flex-wrap: wrap;
-      gap: 12px;
-      margin-bottom: 20px;
-      align-items: center;
       justify-content: center;
+      animation: fadeInUp 1.5s ease-out;
     }
 
-    input[type="file"] {
-      display: none;
-    }
-
-    label.btn, button.btn {
-      background: #1a1a1a;
-      border: 1px solid #444;
-      color: #eee;
-      padding: 8px 18px;
-      border-radius: 4px;
+    button {
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.2);
+      color: #fff;
+      padding: 12px 24px;
+      border-radius: 6px;
       cursor: pointer;
+      font-family: 'Space Mono', monospace;
       font-size: 0.85rem;
       letter-spacing: 0.05em;
-      transition: background 0.2s;
+      transition: all 0.3s;
+      backdrop-filter: blur(5px);
     }
 
-    label.btn:hover, button.btn:hover {
-      background: #2a2a2a;
+    button:hover {
+      background: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(255, 255, 255, 0.2);
     }
 
-    textarea#lyrics {
-      width: 320px;
-      height: 60px;
-      background: #111;
-      border: 1px solid #333;
-      color: #ccc;
-      font-size: 0.7rem;
-      padding: 8px;
-      border-radius: 4px;
-      resize: vertical;
-      font-family: 'Courier New', monospace;
+    @keyframes fadeIn {
+      from { opacity: 0; transform: scale(0.95); }
+      to { opacity: 1; transform: scale(1); }
     }
 
-    #canvas-container {
-      position: relative;
-      display: inline-block;
+    @keyframes fadeInDown {
+      from { opacity: 0; transform: translateY(-30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    canvas#imageCanvas {
-      display: none;
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
-    pre#portrait {
-      font-family: 'Courier New', monospace;
-      font-size: 6px;
-      line-height: 1.1;
-      letter-spacing: 0.05em;
-      color: #ffffff;
-      background: #000;
-      padding: 10px;
-      border-radius: 4px;
-      white-space: pre;
-      display: block;
-      max-width: 95vw;
-      overflow: hidden;
+    @media (min-width: 768px) {
+      pre { font-size: 6px; }
+      .header h1 { font-size: 3rem; }
     }
 
-    #placeholder {
-      width: 500px;
-      max-width: 90vw;
-      height: 300px;
-      background: #111;
-      border: 2px dashed #333;
-      border-radius: 8px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
+    .footer {
+      margin-top: 40px;
+      text-align: center;
       color: #555;
-      font-size: 0.9rem;
-      gap: 10px;
-    }
-
-    #placeholder svg {
-      opacity: 0.4;
-    }
-
-    #slider-row {
-      display: flex;
-      gap: 16px;
-      align-items: center;
-      flex-wrap: wrap;
-      justify-content: center;
-    }
-
-    .slider-group {
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      gap: 4px;
       font-size: 0.75rem;
-      color: #888;
-    }
-
-    input[type="range"] {
-      width: 100px;
-      accent-color: #888;
+      animation: fadeIn 2s ease-out;
     }
   </style>
 </head>
 <body>
 
-<h1>✦ Text Portrait Generator ✦</h1>
-
-<div id="controls">
-  <label class="btn" for="imageInput">📷 Upload Image</label>
-  <input type="file" id="imageInput" accept="image/*">
-  <button class="btn" id="generateBtn">⚡ Generate Portrait</button>
-  <button class="btn" id="downloadBtn">💾 Save as PNG</button>
+<div class="header">
+  <h1>RIGHT NOW</h1>
+  <p>A TEXT PORTRAIT</p>
 </div>
 
-<div id="slider-row">
-  <div class="slider-group">
-    <label>Width (chars): <span id="widthVal">120</span></label>
-    <input type="range" id="widthSlider" min="40" max="200" value="120">
-  </div>
-  <div class="slider-group">
-    <label>Contrast: <span id="contrastVal">1.2</span></label>
-    <input type="range" id="contrastSlider" min="0.5" max="3" step="0.1" value="1.2">
-  </div>
-  <div class="slider-group">
-    <label>Brightness: <span id="brightnessVal">1.0</span></label>
-    <input type="range" id="brightnessSlider" min="0.3" max="2" step="0.1" value="1.0">
-  </div>
+<div class="portrait-container">
+  <pre id="portrait">
+                                                                                                                        
+                                                                                                                        
+                                                      LightsgodownandthenightiscallingtomeyeahIhearvoicessingingsongsint                                                     
+                                          hestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingan                                         
+                                   dRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfe                                  
+                              elitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt                             
+                          obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewit                         
+                       hme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwere                      
+                    herewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandin                   
+                  dthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon't                 
+                 beon myownyeahIlovethisfeelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfigh                
+                tthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJus               
+               tlikeHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwerehe              
+              rewithme(Oh-oo   h)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereher             
+             ewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthenig            
+             htiscalling    tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyo            
+            wnyeahIlovethisf  eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeeli           
+            ngAndeverynightIfe elitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowi           
+            tusedt           obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherew           
+           ithme(Oh-ooh)'C     auserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereh            
+           erewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindth            
+           enightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeono           
+           wnyeahIlovethisf  eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefee           
+           lingAndeverynig   htIfeelitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustli           
+           keHowitusedt         obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwer           
+           eherewithme(Oh-        ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishy           
+          ouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownand           
+          indthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tb          
+          eonmyownyeahIlovethisf  eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightth          
+          efeelingAndeverynightIf   elitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustl          
+         ikeHowitusedt              obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouw          
+         ereherewithme(Oh-o              oh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowI          
+         wishyouwereherewith                me(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-o          
+        h-oh)Lightsgodownandindthe           nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,f          
+        orsolongButIknowthatIwon'tbeon         myownyeahIlovethisfeelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisne         
+        wtome(Oh-ooh)YouknowIcan'tf              ightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)LatenightspacesWith         
+        allourfriendsyouandmeyeahLove              thesefacesJustlikeHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tb         
+       eonmyownOnmyown,I'mfeelinglikeRi              ghtnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan        
+       'tfightthefeelingAndeverynightIf                eelitRightnowIwishyouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-o        
+       h)Andlet'sgocrazytogether(Woah-o                 h-oh,woah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsint       
+      HestreetAndIknowthatweOn'tbegoing                  HomeforsolongforsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingandRightnowIwish       
+      youwereherewithme(Oh-ooh)'Causerig                   htnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRight       
+      nowIwishyouwereherewithme(Oh-ooh                       )LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAn      
+     dwewon'tbegoingHomeForsolong,fo                           rsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwerehe      
+     rewithme(Oh-ooh)'Causerightno                                EverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightI      
+     feelitRightnowIwishyouwereh                                    erewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'      
+     sgocrazytogether(Woah-oh-oh,w                                      oah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicess      
+     ingingsongsintHestreetAndI                                            knowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbe      
+     onmyownyeahIlovethisfeel                                                 ingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEvery      
+     thingisnewtoMe(Oh-ooh)Yo                                                     uknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwish     
+     youwereherewithme(Oh-oo                                                         h)LatenightspaceswithallourfriendsyouandmeyeahLovethesefa     
+     cesJustlikeHowitusedt                                                               obeAndwewon'tbegoingHomeForsolong,forsolongButIknowI     
+     won'tbeonmyownOnmyown,                                                                   I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-     
+     ooh)'Causerightno                                                                          EverythingisnewtoMe(Oh-ooh)YouknowIcan'tfight     
+     thefeelingAndeverynightIfeel                                                                  itRightnowIwishyouwereherewithme(Oh-ooh)An     
+     dIcouldDothisforever(Woah-oh-o                                                                   h,woah-oh-oh)Andlet'sgocrazytogether(Wo     
+     ah-oh-oh,woah-oh-oh)Lightsgodownand                                                                indthe nightiscalling tomeyeahIhearv     
+     oicessingingsongsintHestreetAndIknowthatw                                                            eOn'tbegoingHomeforsolong,forsolon     
+     gButIknowthatIwon'tbeonmyownyeahIlovethisfeeling                                                       andRightnowIwishyouwereh erewithm     
+     e(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIc                                                 an'tfightthefeelingAndeveryn     
+     ightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)Latenightspaceswithallourfriendsyouandm                      eyeahLovethesefacesJustli     
+     keHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelingli        keRightnowIwishyouwerehe     
+     rewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRi   ghtnowIwishyouwereh erewi     
+     thme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthe nightiscall     
+     ing tomeyeahIhearvoicessingingsongsintHestreetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisf     
+      eelingandRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeeli      
+      tRightnowIwishyouwereherewithme(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAndwewon'tbegoi      
+      ngHomeForsolong,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisn      
+      ewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,      
+       woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsintHestr       
+       eetAndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingandRightnowIwishyouwereh erewithme(       
+        Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-oo        
+         h)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAndwewon'tbegoingHomeForsolong,forsolongButIkno         
+          wIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'          
+           tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewithme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet's           
+            gocrazytogether(Woah-oh-oh,woah-oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreetAndIknowt            
+              hatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmyownyeahIlovethisfeelingandRightnowIwishyouwereherewithme(Oh-              
+                ooh)'CauserightnoEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereh erewithm                
+                   e(Oh-ooh)LatenightspaceswithallourfriendsyouandmeyeahLovethesefacesJustlikeHowitusedt  obeAndwewon'tbegoingHomeForso                   
+                        long,forsolongButIknowIwon'tbeonmyownOnmyown,I'mfeelinglikeRightnowIwishyouwereherewithme(Oh-ooh)'Causeright                        
+                              noEverythingisnewtoMe(Oh-ooh)YouknowIcan'tfightthefeelingAndeverynightIfeelitRightnowIwishyouwereherewi                              
+                                     thme(Oh-ooh)AndIcouldDothisforever(Woah-oh-oh,woah-oh-oh)Andlet'sgocrazytogether(Woah-oh-oh,woah-                                     
+                                             oh-oh)Lightsgodownandindthe nightiscalling tomeyeahIhearvoicessingingsongsintHestreet                                             
+                                                       AndIknowthatweOn'tbegoingHomeforsolong,forsolongButIknowthatIwon'tbeonmy                                                       
+                                                                 ownyeahIlovethisfeelingandRightnowIwishyouwereherewithme                                                                 
+                                                                                                                                                                                         
+  </pre>
 </div>
 
-<br>
-
-<div style="margin-bottom:10px; display:flex; flex-direction:column; align-items:center; gap:4px;">
-  <label style="font-size:0.8rem; color:#888;">Song Lyrics (will repeat to fill the portrait):</label>
-  <textarea id="lyrics">Lights go down, and the night is calling to me, yeah I hear voices singing songs in the street And I know that we won't be going home for so long, for so long But I know that I won't be on my own, yeah I love this feeling and Right now I wish you were here with me (Oh-ooh) 'Cause right now Everything is new to me (Oh-ooh) You know I can't fight the feeling And every night I feel it Right now I wish you were here with me (Oh-ooh) Late night spaces With all our friends, you and me, yeah Love these faces Just like how it used to be And we won't be going home For so long, for so long But I know, I won't be on my own On my own, I'm feeling like Right now I wish you were here with me (Oh-ooh) 'Cause right now Everything is new to me (Oh-ooh) You know I can't fight the feeling And every night I feel it Right now I wish you were here with me (Oh-ooh) And I could do this forever (Woah-oh-oh, woah-oh-oh) And let's go crazy together (Woah-oh-oh, woah-oh-oh) Lights go down, and</textarea>
+<div class="controls">
+  <button onclick="window.print()">🖨️ Print</button>
+  <button onclick="downloadImage()">💾 Save as Image</button>
+  <button onclick="copyToClipboard()">📋 Copy Text</button>
 </div>
 
-<canvas id="imageCanvas"></canvas>
-
-<div id="portraitContainer">
-  <div id="placeholder">
-    <svg width="48" height="48" viewbox="0 0 24 24" fill="none" stroke="#888" stroke-width="1.5">
-      <rect x="3" y="3" width="18" height="18" rx="2" /><circle cx="8.5" cy="8.5" r="1.5" />
-      <polyline points="21 15 16 10 5 21" />
-    </svg>
-    <span>Upload an image and click Generate Portrait</span>
-    <span style="font-size:0.75rem; color:#444;">Works best with high-contrast face photos</span>
-  </div>
+<div class="footer">
+  <p>Text portrait created from song lyrics • "Right Now" by One Direction</p>
 </div>
 
 <canvas id="downloadCanvas" style="display:none;"></canvas>
 
 <script>
-  let uploadedImage = null;
-
-  const widthSlider = document.getElementById('widthSlider');
-  const contrastSlider = document.getElementById('contrastSlider');
-  const brightnessSlider = document.getElementById('brightnessSlider');
-  widthSlider.addEventListener('input', () => document.getElementById('widthVal').textContent = widthSlider.value);
-  contrastSlider.addEventListener('input', () => document.getElementById('contrastVal').textContent = parseFloat(contrastSlider.value).toFixed(1));
-  brightnessSlider.addEventListener('input', () => document.getElementById('brightnessVal').textContent = parseFloat(brightnessSlider.value).toFixed(1));
-
-  document.getElementById('imageInput').addEventListener('change', (e) => {
-    const file = e.target.files[0];
-    if (!file) return;
-    const reader = new FileReader();
-    reader.onload = (ev) => {
-      const img = new Image();
-      img.onload = () => { uploadedImage = img; };
-      img.src = ev.target.result;
-    };
-    reader.readAsDataURL(file);
-  });
-
-  document.getElementById('generateBtn').addEventListener('click', generatePortrait);
-
-  function generatePortrait() {
-    if (!uploadedImage) {
-      alert('Please upload an image first!');
-      return;
-    }
-
-    const lyrics = document.getElementById('lyrics').value.trim() || 'Text Portrait ';
-    const cols = parseInt(widthSlider.value);
-    const contrastFactor = parseFloat(contrastSlider.value);
-    const brightnessFactor = parseFloat(brightnessSlider.value);
-
-    // Use 2:1 ratio (chars are taller than wide)
-    const charAspect = 0.55;
-    const canvas = document.getElementById('imageCanvas');
-    const ctx = canvas.getContext('2d');
-
-    // Scale image to desired cols
-    const scale = cols / uploadedImage.width;
-    const rows = Math.floor(uploadedImage.height * scale * charAspect);
-    canvas.width = cols;
-    canvas.height = rows;
-
-    ctx.drawImage(uploadedImage, 0, 0, cols, rows);
-    const imageData = ctx.getImageData(0, 0, cols, rows);
-    const data = imageData.data;
-
-    let lyricsIndex = 0;
-    let result = '';
-
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        const idx = (y * cols + x) * 4;
-        let r = data[idx], g = data[idx+1], b = data[idx+2];
-
-        // Grayscale
-        let gray = 0.299*r + 0.587*g + 0.114*b;
-
-        // Brightness
-        gray = gray * brightnessFactor;
-
-        // Contrast: pivot at 128
-        gray = (gray - 128) * contrastFactor + 128;
-        gray = Math.max(0, Math.min(255, gray));
-
-        // Threshold: dark pixels get a lyric char, light pixels get a space
-        const threshold = 128;
-        if (gray < threshold) {
-          // Pick next char from lyrics (skip spaces for denser look)
-          let ch = lyrics[lyricsIndex % lyrics.length];
-          lyricsIndex++;
-          // skip whitespace chars in lyrics to keep density
-          while (ch === '\n' || ch === '\r') {
-            lyricsIndex++;
-            ch = lyrics[lyricsIndex % lyrics.length];
-          }
-          result += ch;
-        } else {
-          result += ' ';
-        }
-      }
-      result += '\n';
-    }
-
-    const portraitEl = document.createElement('pre');
-    portraitEl.id = 'portrait';
-    portraitEl.textContent = result;
-
-    const container = document.getElementById('portraitContainer');
-    container.innerHTML = '';
-    container.appendChild(portraitEl);
-  }
-
-  document.getElementById('downloadBtn').addEventListener('click', () => {
+  function downloadImage() {
     const pre = document.getElementById('portrait');
-    if (!pre) { alert('Generate a portrait first!'); return; }
-
-    const lines = pre.textContent.split('\n');
+    const text = pre.textContent;
+    const lines = text.split('\n');
+    
     const fontSize = 7;
     const lineHeight = Math.floor(fontSize * 1.1);
     const charWidth = fontSize * 0.6;
-    const padding = 20;
-
+    const padding = 40;
+    
     const maxCols = Math.max(...lines.map(l => l.length));
     const w = Math.ceil(maxCols * charWidth) + padding * 2;
     const h = lines.length * lineHeight + padding * 2;
-
-    const dc = document.getElementById('downloadCanvas');
-    dc.width = w;
-    dc.height = h;
-    const dctx = dc.getContext('2d');
-    dctx.fillStyle = '#000';
-    dctx.fillRect(0, 0, w, h);
-    dctx.fillStyle = '#fff';
-    dctx.font = `${fontSize}px "Courier New", monospace`;
-
+    
+    const canvas = document.getElementById('downloadCanvas');
+    canvas.width = w;
+    canvas.height = h;
+    const ctx = canvas.getContext('2d');
+    
+    // Background
+    ctx.fillStyle = '#000000';
+    ctx.fillRect(0, 0, w, h);
+    
+    // Text
+    ctx.fillStyle = '#ffffff';
+    ctx.font = `${fontSize}px "Courier New", monospace`;
+    
     lines.forEach((line, i) => {
-      dctx.fillText(line, padding, padding + (i+1) * lineHeight);
+      ctx.fillText(line, padding, padding + (i + 1) * lineHeight);
     });
-
-    const a = document.createElement('a');
-    a.download = 'text_portrait.png';
-    a.href = dc.toDataURL('image/png');
-    a.click();
-  });
+    
+    // Download
+    const link = document.createElement('a');
+    link.download = 'text-portrait.png';
+    link.href = canvas.toDataURL('image/png');
+    link.click();
+  }
+  
+  function copyToClipboard() {
+    const text = document.getElementById('portrait').textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      alert('Portrait copied to clipboard!');
+    });
+  }
 </script>
 
-</body></html>
+</body>
+</html>
