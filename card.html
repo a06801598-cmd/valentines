@@ -12,7 +12,7 @@
     }
 
     body {
-      background: linear-gradient(135deg, #1a1a1a 0%, #0a0a0a 100%);
+      background: #000;
       min-height: 100vh;
       font-family: 'Courier New', monospace;
       color: #fff;
@@ -20,295 +20,259 @@
     }
 
     .container {
-      max-width: 1400px;
+      max-width: 1600px;
       margin: 0 auto;
     }
 
     h1 {
       text-align: center;
-      font-size: 2rem;
-      letter-spacing: 0.2em;
-      margin-bottom: 30px;
-      background: linear-gradient(45deg, #ff6b6b, #4ecdc4);
-      -webkit-background-clip: text;
-      -webkit-text-fill-color: transparent;
-      background-clip: text;
+      font-size: 1.8rem;
+      letter-spacing: 0.3em;
+      margin-bottom: 25px;
+      color: #4ecdc4;
+      text-transform: uppercase;
     }
 
-    .controls-panel {
-      background: rgba(255, 255, 255, 0.05);
-      padding: 25px;
-      border-radius: 10px;
-      margin-bottom: 30px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-    }
-
-    .upload-area {
-      border: 2px dashed rgba(255, 255, 255, 0.3);
+    .controls {
+      background: #111;
+      padding: 20px;
       border-radius: 8px;
-      padding: 40px;
-      text-align: center;
       margin-bottom: 20px;
+      border: 1px solid #333;
+    }
+
+    .upload-btn {
+      width: 100%;
+      background: #1a1a1a;
+      border: 2px dashed #444;
+      padding: 30px;
+      text-align: center;
       cursor: pointer;
+      border-radius: 6px;
+      margin-bottom: 15px;
       transition: all 0.3s;
     }
 
-    .upload-area:hover {
-      border-color: rgba(255, 255, 255, 0.6);
-      background: rgba(255, 255, 255, 0.05);
+    .upload-btn:hover {
+      border-color: #4ecdc4;
+      background: #1a2a2a;
     }
 
-    .upload-area.has-image {
+    .upload-btn.active {
       border-color: #4ecdc4;
-      background: rgba(78, 205, 196, 0.1);
+      background: #0a1a1a;
     }
 
     input[type="file"] {
       display: none;
     }
 
-    .upload-icon {
-      font-size: 3rem;
-      margin-bottom: 10px;
-    }
-
-    label {
-      display: block;
-      font-size: 0.9rem;
-      color: #aaa;
-      margin-bottom: 8px;
-      letter-spacing: 0.05em;
-    }
-
-    textarea {
+    .text-area {
       width: 100%;
-      min-height: 100px;
-      background: rgba(0, 0, 0, 0.4);
-      border: 1px solid rgba(255, 255, 255, 0.2);
-      color: #fff;
-      padding: 12px;
-      border-radius: 6px;
+      min-height: 80px;
+      background: #0a0a0a;
+      border: 1px solid #333;
+      color: #ccc;
+      padding: 10px;
+      border-radius: 4px;
       font-family: 'Courier New', monospace;
       font-size: 0.85rem;
-      resize: vertical;
       margin-bottom: 15px;
+      resize: vertical;
     }
 
-    textarea:focus {
+    .text-area:focus {
       outline: none;
       border-color: #4ecdc4;
     }
 
-    .slider-group {
-      margin-bottom: 20px;
+    .sliders {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 15px;
+      margin-bottom: 15px;
     }
 
-    .slider-header {
+    .slider-item label {
       display: flex;
       justify-content: space-between;
-      margin-bottom: 8px;
+      font-size: 0.8rem;
+      color: #888;
+      margin-bottom: 5px;
     }
 
     input[type="range"] {
       width: 100%;
-      height: 6px;
-      background: rgba(255, 255, 255, 0.2);
-      border-radius: 3px;
+      height: 4px;
+      background: #333;
+      border-radius: 2px;
       outline: none;
       -webkit-appearance: none;
     }
 
     input[type="range"]::-webkit-slider-thumb {
       -webkit-appearance: none;
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       background: #4ecdc4;
       border-radius: 50%;
       cursor: pointer;
     }
 
     input[type="range"]::-moz-range-thumb {
-      width: 18px;
-      height: 18px;
+      width: 16px;
+      height: 16px;
       background: #4ecdc4;
       border-radius: 50%;
       cursor: pointer;
       border: none;
     }
 
-    .button-group {
+    .buttons {
       display: flex;
-      gap: 12px;
+      gap: 10px;
       flex-wrap: wrap;
     }
 
     button {
       flex: 1;
-      min-width: 150px;
-      background: rgba(78, 205, 196, 0.2);
-      border: 1px solid #4ecdc4;
-      color: #4ecdc4;
-      padding: 12px 24px;
-      border-radius: 6px;
-      font-family: 'Courier New', monospace;
-      font-size: 0.9rem;
+      min-width: 120px;
+      padding: 12px 20px;
+      background: #1a1a1a;
+      border: 1px solid #444;
+      color: #ccc;
+      border-radius: 4px;
       cursor: pointer;
+      font-family: 'Courier New', monospace;
+      font-size: 0.85rem;
       transition: all 0.3s;
-      letter-spacing: 0.05em;
     }
 
-    button:hover {
-      background: rgba(78, 205, 196, 0.4);
-      transform: translateY(-2px);
+    button:hover:not(:disabled) {
+      background: #2a2a2a;
+      border-color: #4ecdc4;
+      color: #4ecdc4;
     }
 
     button:disabled {
-      opacity: 0.5;
+      opacity: 0.4;
       cursor: not-allowed;
-      transform: none;
     }
 
     button.primary {
       background: #4ecdc4;
       color: #000;
+      border-color: #4ecdc4;
       font-weight: bold;
     }
 
-    button.primary:hover {
+    button.primary:hover:not(:disabled) {
       background: #5eddd4;
     }
 
     #output {
-      background: rgba(0, 0, 0, 0.6);
-      padding: 30px;
-      border-radius: 10px;
-      border: 1px solid rgba(255, 255, 255, 0.1);
-      min-height: 400px;
+      background: #000;
+      padding: 20px;
+      border-radius: 8px;
+      border: 1px solid #222;
+      min-height: 500px;
       display: flex;
       align-items: center;
       justify-content: center;
+      overflow: auto;
     }
 
     #portrait {
       font-family: 'Courier New', monospace;
       font-size: 6px;
       line-height: 1.1;
-      letter-spacing: 0.03em;
-      color: #ffffff;
+      letter-spacing: 0;
+      color: #e8e8e8;
       white-space: pre;
-      text-shadow: 0 0 10px rgba(255, 255, 255, 0.2);
-      max-width: 100%;
-      overflow-x: auto;
+      text-shadow: 0 0 8px rgba(255,255,255,0.3);
     }
 
-    #placeholder {
+    .placeholder {
       text-align: center;
-      color: #555;
+      color: #444;
+      font-size: 0.9rem;
     }
 
-    #placeholder .icon {
-      font-size: 4rem;
-      margin-bottom: 15px;
-      opacity: 0.3;
+    .tip {
+      background: #1a1a1a;
+      border-left: 3px solid #4ecdc4;
+      padding: 10px 15px;
+      margin-top: 15px;
+      font-size: 0.75rem;
+      color: #888;
     }
 
-    canvas {
-      display: none;
-    }
-
-    .tips {
-      background: rgba(255, 107, 107, 0.1);
-      border: 1px solid rgba(255, 107, 107, 0.3);
-      border-radius: 6px;
-      padding: 15px;
-      margin-top: 20px;
-      font-size: 0.85rem;
-      color: #ff6b6b;
-    }
-
-    .tips strong {
-      display: block;
-      margin-bottom: 8px;
-    }
+    canvas { display: none; }
 
     @media (max-width: 768px) {
-      h1 { font-size: 1.5rem; }
-      .button-group { flex-direction: column; }
+      h1 { font-size: 1.3rem; }
+      .buttons { flex-direction: column; }
       button { min-width: 100%; }
+      #portrait { font-size: 5px; }
     }
   </style>
 </head>
 <body>
 
 <div class="container">
-  <h1>✦ TEXT PORTRAIT GENERATOR ✦</h1>
+  <h1>✦ Text Portrait Generator ✦</h1>
 
-  <div class="controls-panel">
-    <div class="upload-area" id="uploadArea" onclick="document.getElementById('imageInput').click()">
-      <div class="upload-icon">📸</div>
-      <div id="uploadText">Click to upload your photo</div>
-      <div style="font-size: 0.75rem; color: #666; margin-top: 8px;">Best with face photos • JPG, PNG</div>
+  <div class="controls">
+    <div class="upload-btn" id="uploadArea" onclick="document.getElementById('fileInput').click()">
+      <div style="font-size: 2rem; margin-bottom: 8px;">📸</div>
+      <div id="uploadText">Upload Image</div>
+      <div style="font-size: 0.7rem; color: #666; margin-top: 5px;">Click to select your photo</div>
     </div>
-    <input type="file" id="imageInput" accept="image/*">
+    <input type="file" id="fileInput" accept="image/*">
 
-    <label>Your Text (this will create the portrait):</label>
-    <textarea id="textInput" placeholder="Type or paste any text here - song lyrics, quotes, poems, etc.">Lights go down and the night is calling to me yeah I hear voices singing songs in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah</textarea>
+    <textarea class="text-area" id="textInput" placeholder="Enter your text here (it will repeat to create the portrait)...">Lights go down and the night is calling to me yeah I hear voices singing songs in the street And I know that we won't be going home for so long for so long But I know that I won't be on my own yeah</textarea>
 
-    <div class="slider-group">
-      <div class="slider-header">
-        <label>Portrait Width (characters)</label>
-        <span id="widthValue">140</span>
+    <div class="sliders">
+      <div class="slider-item">
+        <label>Width <span id="widthVal">150</span></label>
+        <input type="range" id="widthSlider" min="80" max="220" value="150">
       </div>
-      <input type="range" id="widthSlider" min="60" max="200" value="140">
-    </div>
-
-    <div class="slider-group">
-      <div class="slider-header">
-        <label>Contrast</label>
-        <span id="contrastValue">1.5</span>
+      <div class="slider-item">
+        <label>Contrast <span id="contrastVal">2.0</span></label>
+        <input type="range" id="contrastSlider" min="1.0" max="3.5" step="0.1" value="2.0">
       </div>
-      <input type="range" id="contrastSlider" min="0.5" max="3" step="0.1" value="1.5">
-    </div>
-
-    <div class="slider-group">
-      <div class="slider-header">
-        <label>Brightness</label>
-        <span id="brightnessValue">1.0</span>
+      <div class="slider-item">
+        <label>Brightness <span id="brightnessVal">1.1</span></label>
+        <input type="range" id="brightnessSlider" min="0.6" max="1.8" step="0.1" value="1.1">
       </div>
-      <input type="range" id="brightnessSlider" min="0.5" max="2" step="0.1" value="1.0">
     </div>
 
-    <div class="button-group">
-      <button class="primary" id="generateBtn" disabled>⚡ GENERATE PORTRAIT</button>
-      <button id="downloadBtn" disabled>💾 Save as PNG</button>
+    <div class="buttons">
+      <button class="primary" id="generateBtn" disabled>⚡ Generate Portrait</button>
+      <button id="saveBtn" disabled>💾 Save as PNG</button>
       <button id="copyBtn" disabled>📋 Copy Text</button>
     </div>
 
-    <div class="tips">
-      <strong>💡 Tips for Best Results:</strong>
-      • Use high-contrast face photos with good lighting<br>
-      • Clear background works better than busy backgrounds<br>
-      • Adjust sliders after generating to fine-tune the portrait<br>
-      • Longer text creates more detailed portraits
+    <div class="tip">
+      <strong>💡 Pro Tip:</strong> For best results, use photos with good contrast between face and background. Increase contrast slider if face is too faint.
     </div>
   </div>
 
   <div id="output">
-    <div id="placeholder">
-      <div class="icon">🎨</div>
-      <div>Upload a photo and click Generate to see your text portrait</div>
+    <div class="placeholder">
+      <div style="font-size: 3rem; opacity: 0.2; margin-bottom: 10px;">🎨</div>
+      <div>Upload your photo and click Generate</div>
     </div>
   </div>
 </div>
 
-<canvas id="imageCanvas"></canvas>
-<canvas id="downloadCanvas"></canvas>
+<canvas id="workCanvas"></canvas>
+<canvas id="exportCanvas"></canvas>
 
 <script>
-  let uploadedImage = null;
+  let loadedImage = null;
 
-  // DOM elements
-  const imageInput = document.getElementById('imageInput');
+  const fileInput = document.getElementById('fileInput');
   const uploadArea = document.getElementById('uploadArea');
   const uploadText = document.getElementById('uploadText');
   const textInput = document.getElementById('textInput');
@@ -316,17 +280,15 @@
   const contrastSlider = document.getElementById('contrastSlider');
   const brightnessSlider = document.getElementById('brightnessSlider');
   const generateBtn = document.getElementById('generateBtn');
-  const downloadBtn = document.getElementById('downloadBtn');
+  const saveBtn = document.getElementById('saveBtn');
   const copyBtn = document.getElementById('copyBtn');
   const output = document.getElementById('output');
 
-  // Update slider values
-  widthSlider.oninput = () => document.getElementById('widthValue').textContent = widthSlider.value;
-  contrastSlider.oninput = () => document.getElementById('contrastValue').textContent = parseFloat(contrastSlider.value).toFixed(1);
-  brightnessSlider.oninput = () => document.getElementById('brightnessValue').textContent = parseFloat(brightnessSlider.value).toFixed(1);
+  widthSlider.oninput = () => document.getElementById('widthVal').textContent = widthSlider.value;
+  contrastSlider.oninput = () => document.getElementById('contrastVal').textContent = parseFloat(contrastSlider.value).toFixed(1);
+  brightnessSlider.oninput = () => document.getElementById('brightnessVal').textContent = parseFloat(brightnessSlider.value).toFixed(1);
 
-  // Handle image upload
-  imageInput.onchange = (e) => {
+  fileInput.onchange = (e) => {
     const file = e.target.files[0];
     if (!file) return;
 
@@ -334,9 +296,9 @@
     reader.onload = (ev) => {
       const img = new Image();
       img.onload = () => {
-        uploadedImage = img;
-        uploadArea.classList.add('has-image');
-        uploadText.innerHTML = `<strong>✓ Image loaded: ${file.name}</strong><br><span style="font-size:0.75rem">Click to change</span>`;
+        loadedImage = img;
+        uploadArea.classList.add('active');
+        uploadText.innerHTML = `<strong>✓ ${file.name}</strong>`;
         generateBtn.disabled = false;
       };
       img.src = ev.target.result;
@@ -344,97 +306,96 @@
     reader.readAsDataURL(file);
   };
 
-  // Generate portrait
   generateBtn.onclick = () => {
-    if (!uploadedImage) {
-      alert('Please upload an image first!');
-      return;
-    }
+    if (!loadedImage) return;
 
-    const text = textInput.value.trim() || 'Text Portrait ';
-    const cols = parseInt(widthSlider.value);
-    const contrastFactor = parseFloat(contrastSlider.value);
-    const brightnessFactor = parseFloat(brightnessSlider.value);
+    const text = textInput.value.trim() || 'TEXT PORTRAIT';
+    const targetWidth = parseInt(widthSlider.value);
+    const contrast = parseFloat(contrastSlider.value);
+    const brightness = parseFloat(brightnessSlider.value);
 
-    const charAspect = 0.55;
-    const canvas = document.getElementById('imageCanvas');
+    const canvas = document.getElementById('workCanvas');
     const ctx = canvas.getContext('2d');
 
-    const scale = cols / uploadedImage.width;
-    const rows = Math.floor(uploadedImage.height * scale * charAspect);
-    canvas.width = cols;
-    canvas.height = rows;
+    // Character aspect ratio (chars are taller than wide)
+    const charAspect = 0.5;
+    const targetHeight = Math.floor(loadedImage.height * (targetWidth / loadedImage.width) * charAspect);
 
-    ctx.drawImage(uploadedImage, 0, 0, cols, rows);
-    const imageData = ctx.getImageData(0, 0, cols, rows);
-    const data = imageData.data;
+    canvas.width = targetWidth;
+    canvas.height = targetHeight;
 
-    let textIndex = 0;
-    let result = '';
+    // Draw and get pixel data
+    ctx.drawImage(loadedImage, 0, 0, targetWidth, targetHeight);
+    const imgData = ctx.getImageData(0, 0, targetWidth, targetHeight);
+    const pixels = imgData.data;
 
-    for (let y = 0; y < rows; y++) {
-      for (let x = 0; x < cols; x++) {
-        const idx = (y * cols + x) * 4;
-        let r = data[idx], g = data[idx + 1], b = data[idx + 2];
+    let textIdx = 0;
+    let portrait = '';
 
-        // Grayscale
+    for (let y = 0; y < targetHeight; y++) {
+      let row = '';
+      for (let x = 0; x < targetWidth; x++) {
+        const i = (y * targetWidth + x) * 4;
+        let r = pixels[i];
+        let g = pixels[i + 1];
+        let b = pixels[i + 2];
+
+        // Convert to grayscale
         let gray = 0.299 * r + 0.587 * g + 0.114 * b;
 
-        // Brightness
-        gray = gray * brightnessFactor;
+        // Apply brightness
+        gray *= brightness;
 
-        // Contrast
-        gray = (gray - 128) * contrastFactor + 128;
+        // Apply contrast (pivot around 128)
+        gray = (gray - 128) * contrast + 128;
         gray = Math.max(0, Math.min(255, gray));
 
-        // Threshold
-        const threshold = 128;
-        if (gray < threshold) {
-          let ch = text[textIndex % text.length];
-          textIndex++;
+        // Threshold: if dark, use character; if light, use space
+        if (gray < 128) {
+          let ch = text[textIdx % text.length];
+          textIdx++;
+          // Skip line breaks
           while (ch === '\n' || ch === '\r') {
-            textIndex++;
-            ch = text[textIndex % text.length];
+            textIdx++;
+            ch = text[textIdx % text.length];
           }
-          result += ch;
+          row += ch;
         } else {
-          result += ' ';
+          row += ' ';
         }
       }
-      result += '\n';
+      portrait += row + '\n';
     }
 
-    // Display portrait
     output.innerHTML = '<pre id="portrait"></pre>';
-    document.getElementById('portrait').textContent = result;
-    
-    downloadBtn.disabled = false;
+    document.getElementById('portrait').textContent = portrait;
+
+    saveBtn.disabled = false;
     copyBtn.disabled = false;
   };
 
-  // Download as PNG
-  downloadBtn.onclick = () => {
+  saveBtn.onclick = () => {
     const pre = document.getElementById('portrait');
     if (!pre) return;
 
     const lines = pre.textContent.split('\n');
     const fontSize = 7;
-    const lineHeight = Math.floor(fontSize * 1.15);
+    const lineHeight = fontSize * 1.15;
     const charWidth = fontSize * 0.6;
     const padding = 40;
 
-    const maxCols = Math.max(...lines.map(l => l.length));
-    const w = Math.ceil(maxCols * charWidth) + padding * 2;
-    const h = lines.length * lineHeight + padding * 2;
+    const maxLen = Math.max(...lines.map(l => l.length));
+    const canvasWidth = Math.ceil(maxLen * charWidth) + padding * 2;
+    const canvasHeight = lines.length * lineHeight + padding * 2;
 
-    const canvas = document.getElementById('downloadCanvas');
-    canvas.width = w;
-    canvas.height = h;
+    const canvas = document.getElementById('exportCanvas');
+    canvas.width = canvasWidth;
+    canvas.height = canvasHeight;
     const ctx = canvas.getContext('2d');
 
-    ctx.fillStyle = '#000000';
-    ctx.fillRect(0, 0, w, h);
-    ctx.fillStyle = '#ffffff';
+    ctx.fillStyle = '#000';
+    ctx.fillRect(0, 0, canvasWidth, canvasHeight);
+    ctx.fillStyle = '#e8e8e8';
     ctx.font = `${fontSize}px "Courier New", monospace`;
 
     lines.forEach((line, i) => {
@@ -447,20 +408,17 @@
     link.click();
   };
 
-  // Copy to clipboard
   copyBtn.onclick = () => {
     const pre = document.getElementById('portrait');
     if (!pre) return;
 
     navigator.clipboard.writeText(pre.textContent).then(() => {
-      const originalText = copyBtn.textContent;
+      const orig = copyBtn.textContent;
       copyBtn.textContent = '✓ Copied!';
-      setTimeout(() => {
-        copyBtn.textContent = originalText;
-      }, 2000);
+      setTimeout(() => copyBtn.textContent = orig, 2000);
     });
   };
 </script>
 
 </body>
-  </html>
+</html>
